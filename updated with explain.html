@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criminal Trial Process (CRPC India) - Flowchart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light gray-blue background */
+        }
+        .flowchart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            gap: 32px; /* Space between stages */
+        }
+        .credits {
+            text-align: center;
+            font-size: 0.9em;
+            color: #4b5563; /* Gray 600 */
+            margin-bottom: 20px; /* Space below credits */
+        }
+        .stage-title-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+        .stage-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #1e3a8a; /* Dark blue */
+            text-align: center;
+            padding: 10px 20px;
+            background-color: #e0e7ff; /* Light indigo */
+            border-radius: 8px;
+            border: 1px solid #c7d2fe; /* Indigo border */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .flow-box {
+            background-color: #ffffff; /* White */
+            border: 1px solid #cbd5e1; /* Slate 300 */
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+            min-width: 200px;
+            max-width: 500px; /* Max width for readability */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .process-box {
+            background-color: #eff6ff; /* Blue 50 */
+            border: 1px solid #bfdbfe; /* Blue 200 */
+            color: #1e40af; /* Blue 700 */
+        }
+        .decision-box {
+            background-color: #fef3c7; /* Amber 100 */
+            border: 1px solid #fde68a; /* Amber 200 */
+            color: #92400e; /* Amber 700 */
+            font-weight: 600;
+        }
+        .action-box {
+            background-color: #dcfce7; /* Green 100 */
+            border: 1px solid #bbf7d0; /* Green 200 */
+            color: #15803d; /* Green 700 */
+        }
+        .info-box {
+            background-color: #f3f4f6; /* Gray 100 */
+            border: 1px solid #e5e7eb; /* Gray 200 */
+            color: #4b5563; /* Gray 600 */
+            font-style: italic;
+            font-size: 0.9em;
+            margin-top: 8px;
+        }
+        .court-box {
+            background-color: #ede9fe; /* Violet 100 */
+            border: 1px solid #ddd6fe; /* Violet 200 */
+            color: #5b21b6; /* Violet 700 */
+            font-weight: 500;
+            margin-top: 8px;
+        }
+        .section-ref {
+            font-size: 0.8em;
+            color: #64748b; /* Slate 500 */
+            display: inline; 
+            margin-top: 4px;
+        }
+        .connector {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #6b7280; /* Gray 500 */
+            margin: 8px 0;
+            text-align: center;
+        }
+        .path-container {
+            display: flex;
+            flex-direction: column; 
+            gap: 16px;
+            margin-top: 16px;
+            align-items: stretch; 
+        }
+        .path-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            gap: 8px;
+            flex: 1; 
+        }
+        .path-label {
+            font-weight: 600;
+            color: #4b5563; /* Gray 600 */
+        }
+
+        .gemini-button { 
+            background-color: #4f46e5; /* Indigo 600 */
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: none;
+            margin-left: 8px; 
+        }
+        .gemini-button:hover {
+            background-color: #4338ca; /* Indigo 700 */
+        }
+        .summarize-stage-btn {
+            background-color: #059669; /* Emerald 600 */
+            margin-top: 8px;
+        }
+        .summarize-stage-btn:hover {
+            background-color: #047857; /* Emerald 700 */
+        }
+        .explain-section-btn {
+            padding: 4px 8px;
+            font-size: 0.75em;
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-title {
+            font-size: 1.25em;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 16px;
+        }
+        .modal-body {
+            font-size: 0.95em;
+            color: #374151; /* Gray 700 */
+            line-height: 1.6;
+            white-space: pre-wrap; 
+        }
+        .modal-close-btn {
+            background-color: #ef4444; /* Red 500 */
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: none;
+            margin-top: 20px;
+            float: right;
+        }
+        .modal-close-btn:hover {
+            background-color: #dc2626; /* Red 600 */
+        }
+        
+        @media (min-width: 768px) { /* md breakpoint */
+            .path-container {
+                flex-direction: row; 
+                justify-content: center; 
+                align-items: flex-start; 
+            }
+            .path-item {
+                 align-items: center; 
+            }
+            .flow-box {
+                min-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="flowchart-container">
+        <h1 class="text-3xl font-bold text-center text-indigo-700 my-4">Criminal Trial Process under CRPC, India 🇮🇳</h1>
+        <div class="credits">
+            Prepared by Anurag Das Bhuyan<br>
+            Contact: +91-7577932417 | Email: anuragdas@nluassam.ac.in
+        </div>
+
+        <div class="w-full max-w-4xl">
+            <div class="stage-title-container">
+                <div class="stage-title">Stage 1: Information to the Police 🚓</div>
+                <button class="gemini-button summarize-stage-btn" data-stage-info="Stage 1: Information to the Police. This stage covers the initial reporting of an offence. It differentiates between cognizable offences (leading to an FIR) and non-cognizable offences (requiring a magistrate's intervention or direct complaint). Key sections include 154 and 155 CRPC.">Summarize Stage ✨</button>
+            </div>
+            <div class="flow-box process-box mt-4">Initial Information Received</div>
+            <div class="connector">↓</div>
+            <div class="flow-box decision-box">Type of Offence?</div>
+            <div class="path-container">
+                <div class="path-item">
+                    <div class="path-label">Cognizable Offence</div>
+                    <div class="flow-box action-box">Police MUST Register FIR 📝
+                        <span class="section-ref">(S.154 CRPC)</span>
+                        <button class="gemini-button explain-section-btn" data-section="S.154 CRPC">Explain ✨</button>
+                    </div>
+                    <div class="flow-box info-box">Police inform the Magistrate.</div>
+                </div>
+                <div class="path-item">
+                    <div class="path-label">Non-Cognizable Offence</div>
+                    <div class="flow-box action-box">Police record in General Diary & Refer Informant to Magistrate 📒
+                        <span class="section-ref">(S.155 CRPC)</span>
+                        <button class="gemini-button explain-section-btn" data-section="S.155 CRPC">Explain ✨</button>
+                    </div>
+                    <div class="flow-box info-box">Police CANNOT investigate without Magistrate's order. Leads to direct complaint.</div>
+                </div>
+            </div>
+            <div class="connector">↓</div>
+            <div class="flow-box process-box">Alternative: Direct Complaint to Magistrate 👨‍⚖️</div>
+            <div class="flow-box info-box">IF Police refuse to register FIR 
+                (<span class="section-ref">S.154(3) CRPC</span><button class="gemini-button explain-section-btn" data-section="S.154(3) CRPC">Explain ✨</button>)
+                 OR offence is Non-Cognizable:
+            </div>
+            <div class="connector">↓</div>
+            <div class="flow-box action-box">Aggrieved person can file Complaint directly with Magistrate 
+                <span class="section-ref">(S.200 CRPC)</span>
+                <button class="gemini-button explain-section-btn" data-section="S.200 CRPC">Explain ✨</button>
+            </div>
+            <div class="flow-box court-box">Court: Judicial Magistrate First Class (JMFC) or Metropolitan Magistrate (MM).</div>
+        </div>
+
+        <div class="w-full max-w-4xl">
+            <div class="stage-title-container">
+                <div class="stage-title">Stage 2: Investigation (by Police) 🕵️</div>
+                <button class="gemini-button summarize-stage-btn" data-stage-info="Stage 2: Investigation by Police. This stage begins after an FIR or magistrate's order. Key actions include arrest, remand, bail considerations, recording statements (S.161, S.164), search & seizure, and medical exams. It culminates in a police report (charge sheet or final report) under S.173.">Summarize Stage ✨</button>
+            </div>
+            <div class="flow-box process-box mt-4">Commencement of Investigation</div>
+            <div class="path-container">
+                <div class="path-item">
+                    <div class="path-label">FIR for Cognizable Offence</div>
+                    <div class="flow-box action-box">Police start investigation without Magistrate's order 
+                        <span class="section-ref">(S.156 CRPC)</span>
+                        <button class="gemini-button explain-section-btn" data-section="S.156 CRPC">Explain ✨</button>
+                    </div>
+                </div>
+                <div class="path-item">
+                    <div class="path-label">Non-Cognizable & Magistrate Orders</div>
+                    <div class="flow-box action-box">Police start investigation 
+                        <span class="section-ref">(S.155(2) CRPC)</span>
+                        <button class="gemini-button explain-section-btn" data-section="S.155(2) CRPC">Explain ✨</button>
+                    </div>
+                </div>
+            </div>
+            <div class="connector">↓</div>
+            <div class="flow-box process-box">Key Investigative Actions</div>
+            <div class="flex flex-col gap-4 mt-4 items-center">
+                <div class="flow-box action-box">Arrest of Accused ⛓️ 
+                    (<span class="section-ref">Ss.41-60A</span><button class="gemini-button explain-section-btn" data-section="Ss.41-60A CRPC">Explain ✨</button>, 
+                    <span class="section-ref">70-81 CRPC</span><button class="gemini-button explain-section-btn" data-section="Ss.70-81 CRPC">Explain ✨</button>)
+                </div>
+                <div class="flow-box action-box">Accused produced before Magistrate within 24 hours 
+                    <span class="section-ref">(S.57 CRPC)</span>
+                    <button class="gemini-button explain-section-btn" data-section="S.57 CRPC">Explain ✨</button>
+                </div>
+                <div class="flow-box decision-box">Investigation not completed in 24 hrs?</div>
+                <div class="connector">↓ (YES)</div>
+                <div class="flow-box action-box">Police seek Remand (Police/Judicial) from Magistrate 
+                    <span class="section-ref">(S.167 CRPC)</span>
+                    <button class="gemini-button explain-section-btn" data-section="S.167 CRPC">Explain ✨</button>
+                    <span class="info-box block mt-1">Max Police: 15 days. Judicial: up to 60/90 days.</span>
+                </div>
+                <div class="flow-box process-box mt-2">Bail Considerations ⚖️</div>
+                <div class="path-container">
+                    <div class="path-item">
+                        <div class="flow-box decision-box">Bailable Offence?</div>
+                        <div class="connector">↓ (YES)</div>
+                        <div class="flow-box action-box">Accused has right to Bail 
+                            <span class="section-ref">(S.436 CRPC)</span>
+                            <button class="gemini-button explain-section-btn" data-section="S.436 CRPC">Explain ✨</button>
+                        </div>
+                    </div>
+                    <div class="path-item">
+                        <div class="flow-box decision-box">Non-Bailable Offence?</div>
+                         <div class="connector">↓ (YES)</div>
+                        <div class="flow-box action-box">Bail at discretion of Court 
+                            (<span class="section-ref">S.437</span><button class="gemini-button explain-section-btn" data-section="S.437 CRPC">Explain ✨</button>, 
+                            <span class="section-ref">S.439 CRPC</span><button class="gemini-button explain-section-btn" data-section="S.439 CRPC">Explain ✨</button>)
+                        </div>
+                    </div>
+                </div>
+                <div class="flow-box action-box mt-2">Anticipatory Bail can be sought 
+                    <span class="section-ref">(S.438 CRPC)</span>
+                    <button class="gemini-button explain-section-btn" data-section="S.438 CRPC">Explain ✨</button>
+                </div>
+                <div class="flow-box action-box">Recording Statements of Witnesses 
+                    <span class="section-ref">(S.161 CRPC)</span>
+                    <button class="gemini-button explain-section-btn" data-section="S.161 CRPC">Explain ✨</button>
+                </div>
+                <div class="flow-box action-box">Recording Confessions/Statements before Magistrate 
+                    <span class="section-ref">(S.164 CRPC)</span>
+                    <button class="gemini-button explain-section-btn" data-section="S.164 CRPC">Explain ✨</button>
+                </div>
+                <div class="flow-box action-box">Search and Seizure of Evidence 🔎 
+                    (<span class="section-ref">Ss.93-103 CRPC</span><button class="gemini-button explain-section-btn" data-section="Ss.93-103 CRPC">Explain ✨</button>)
+                </div>
+                <div class="flow-box action-box">Medical Examination (Accused/Victim) 🧑‍⚕️ 
+                    (<span class="section-ref">Ss.53, 53A, 54 CRPC</span><button class="gemini-button explain-section-btn" data-section="Ss.53, 53A, 54 CRPC">Explain ✨</button>)
+                </div>
+            </div>
+            <div class="connector">↓</div>
+            <div class="flow-box process-box">Completion of Investigation</div>
+            <div class="flow-box decision-box">Sufficient Evidence Found?</div>
+            <div class="path-container">
+                <div class="path-item">
+                    <div class="path-label">YES</div>
+                    <div class="flow-box action-box">Police file Charge Sheet (Report of Offence) 📄 
+                        <span class="section-ref">(S.173(2) CRPC)</span>
+                        <button class="gemini-button explain-section-btn" data-section="S.173(2) CRPC">Explain ✨</button>
+                    </div>
+                </div>
+                <div class="path-item">
+                    <div class="path-label">NO</div>
+                    <div class="flow-box action-box">Police file Final Report (Closure/Untraced) 📁 
+                        <span class="section-ref">(S.173(2) CRPC)</span>
+                         <button class="gemini-button explain-section-btn" data-section="S.173(2) CRPC Final Report">Explain ✨</button> </div>
+                </div>
+            </div>
+            <div class="flow-box info-box mt-4">Magistrate can accept/reject Final Report, order further investigation, or take cognizance.</div>
+        </div>
+
+        <div class="w-full max-w-4xl">
+            <div class="stage-title-container">
+                <div class="stage-title">Stage 3: Inquiry / Committal Proceedings (Before Trial) 🏛️</div>
+                <button class="gemini-button summarize-stage-btn" data-stage-info="Stage 3: Inquiry / Committal Proceedings. This stage involves the magistrate taking cognizance of the offence (S.190). For complaint cases, it includes examination of complainant (S.200) and issuance of process (S.204) or dismissal (S.203). For cases triable by Sessions Court, committal proceedings (Ss.207-209) occur.">Summarize Stage ✨</button>
+            </div>
+            <div class="flow-box process-box mt-4">Cognizance by Magistrate 
+                <span class="section-ref">(S.190 CRPC)</span>
+                <button class="gemini-button explain-section-btn" data-section="S.190 CRPC">Explain ✨</button>
+            </div>
+            <div class="flow-box info-box">Triggered by: Charge Sheet, Direct Complaint, or Suo Motu. Court: JMFC/MM.</div>
+            <div class="connector">↓</div>
+            <div class="flow-box decision-box">Is it a Complaint Case?</div>
+            <div class="path-container">
+                <div class="path-item">
+                    <div class="path-label">YES (Complaint Case)</div>
+                    <div class="flow-box action-box">Magistrate examines complainant & witnesses on oath 
+                        <span class="section-ref">(S.200 CRPC)</span>
+                        <button class="gemini-button explain-section-btn" data-section="S.200 CRPC Complaint Case">Explain ✨</button>
+                    </div>
+                    <div class="connector">↓</div>
+                    <div class="flow-box decision-box">Sufficient grounds to proceed?</div>
+                    <div class="path-container">
+                        <div class="path-item">
+                            <div class="path-label">YES</div>
+                            <div class="flow-box action-box">Magistrate issues Process (Summons/Warrant) to accused 
+                                <span class="section-ref">(S.204 CRPC)</span>
+                                <button class="gemini-button explain-section-btn" data-section="S.204 CRPC">Explain ✨</button>
+                            </div>
+                        </div>
+                        <div class="path-item">
+                            <div class="path-label">NO</div>
+                            <div class="flow-box action-box">Magistrate dismisses complaint 
+                                <span class="section-ref">(S.203 CRPC)</span>
+                                <button class="gemini-button explain-section-btn" data-section="S.203 CRPC">Explain ✨</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="path-item">
+                    <div class="path-label">NO (Not a direct complaint case, or proceeding after process)</div>
+                    <div class="flow-box info-box">Proceeds based on Police Report or after issuing process.</div>
+                </div>
+            </div>
+            <div class="connector">↓</div>
+            <div class="flow-box decision-box">Offence exclusively triable by Court of Session? (e.g., murder)</div>
+            <div class="connector">↓ (YES)</div>
+            <div class="flow-box process-box">Magistrate conducts Committal Proceedings 
+                (<span class="section-ref">Ss.207-209 CRPC</span><button class="gemini-button explain-section-btn" data-section="Ss.207-209 CRPC">Explain ✨</button>)
+            </div>
+            <div class="flow-box info-box">Magistrate ensures documents supplied to accused, then commits case to Sessions Court. Magistrate does not try the case.</div>
+            <div class="flow-box court-box">Court: JMFC/MM commits to Sessions Court.</div>
+        </div>
+
+        <div class="w-full max-w-4xl">
+             <div class="stage-title-container">
+                <div class="stage-title">Stage 4: Framing of Charge 📜</div>
+                <button class="gemini-button summarize-stage-btn" data-stage-info="Stage 4: Framing of Charge. The court (Sessions or Magistrate) hears arguments. If a prima facie case exists, charges are framed (Ss.211-224) and explained to the accused. If not, the accused can be discharged (Ss.227, 239, 245).">Summarize Stage ✨</button>
+            </div>
+            <div class="flow-box process-box mt-4">Hearing on Charge</div>
+            <div class="flow-box court-box">Court: Sessions Court (for Sessions cases) or Magistrate's Court (for Magistrate triable cases).</div>
+            <div class="flow-box info-box">Court hears arguments from prosecution and defense.</div>
+            <div class="connector">↓</div>
+            <div class="flow-box decision-box">Prima Facie Case against Accused?</div>
+            <div class="path-container">
+                <div class="path-item">
+                    <div class="path-label">YES</div>
+                    <div class="flow-box action-box">Court Frames Charge(s) against accused 
+                        (<span class="section-ref">Ss.211-224 CRPC</span><button class="gemini-button explain-section-btn" data-section="Ss.211-224 CRPC">Explain ✨</button>)
+                    </div>
+                    <div class="flow-box info-box">Charge read out and explained. Accused asked to plead guilty or claim trial.</div>
+                </div>
+                <div class="path-item">
+                    <div class="path-label">NO</div>
+                    <div class="flow-box action-box">Court can Discharge the accused 
+                        (<span class="section-ref">S.227</span><button class="gemini-button explain-section-btn" data-section="S.227 CRPC">Explain ✨</button>, 
+                        <span class="section-ref">S.239</span><button class="gemini-button explain-section-btn" data-section="S.239 CRPC">Explain ✨</button>, 
+                        <span class="section-ref">S.245 CRPC</span><button class="gemini-button explain-section-btn" data-section="S.245 CRPC">Explain ✨</button>)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full max-w-4xl">
+            <div class="stage-title-container">
+                <div class="stage-title">Stage 5: Trial 🧑‍⚖️审</div>
+                <button class="gemini-button summarize-stage-btn" data-stage-info="Stage 5: Trial. This stage varies based on trial type (Sessions, Warrant, Summons, Summary). Common phases include Prosecution Evidence (Ss.231, 242, 244, 254), Examination of Accused (S.313), Defense Evidence (Ss.233, 243, 254), and Final Arguments (Ss.234, 246, 254).">Summarize Stage ✨</button>
+            </div>
+            <div class="flow-box process-box mt-4">Types of Trials (Vary based on case)</div>
+            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                <div class="flow-box info-box"><b>Sessions Trial:</b> Exclusively triable by Sessions Court 
+                    (<span class="section-ref">Ss.225-237 CRPC</span><button class="gemini-button explain-section-btn" data-section="Ss.225-237 CRPC">Explain ✨</button>)
+                </div>
+                <div class="flow-box info-box"><b>Warrant Case Trial:</b> Imprisonment > 2 years 
+                    (<span class="section-ref">Ss.238-250 PR</span><button class="gemini-button explain-section-btn" data-section="Ss.238-250 CRPC Police Report">Explain ✨</button>; 
+                    <span class="section-ref">Ss.244-247 Complaint</span><button class="gemini-button explain-section-btn" data-section="Ss.244-247 CRPC Complaint Case">Explain ✨</button>) Court: JMFC/MM.
+                </div>
+                <div class="flow-box info-box"><b>Summons Case Trial:</b> Imprisonment ≤ 2 years 
+                    (<span class="section-ref">Ss.251-259 CRPC</span><button class="gemini-button explain-section-btn" data-section="Ss.251-259 CRPC">Explain ✨</button>) Court: JMFC/MM.
+                </div>
+                <div class="flow-box info-box"><b>Summary Trial:</b> Petty offences, speedy 
+                    (<span class="section-ref">Ss.260-265 CRPC</span><button class="gemini-button explain-section-btn" data-section="Ss.260-265 CRPC">Explain ✨</button>) Court: JMFC/MM.
+                </div>
+            </div>
+            <div class="connector">↓</div>
+            <div class="flow-box process-box">Common Stages within a Trial</div>
+            <div class="flex flex-col gap-4 mt-4 items-center">
+                <div class="flow-box action-box">Prosecution Evidence 🗣️
+                    (<span class="section-ref">Ss.231</span><button class="gemini-button explain-section-btn" data-section="S.231 CRPC">Explain ✨</button>, 
+                    <span class="section-ref">242</span><button class="gemini-button explain-section-btn" data-section="S.242 CRPC">Explain ✨</button>, 
+                    <span class="section-ref">244</span><button class="gemini-button explain-section-btn" data-section="S.244 CRPC">Explain ✨</button>, 
+                    <span class="section-ref">254 CRPC</span><button class="gemini-button explain-section-btn" data-section="S.254 CRPC">Explain ✨</button>)
+                    <span class="info-box block mt-1">Examination-in-chief, Cross-examination, Re-examination.</span>
+                </div>
+                <div class="connector">↓</div>
+                <div class="flow-box action-box">Examination of Accused 
+                    (<span class="section-ref">under S.313 CRPC</span><button class="gemini-button explain-section-btn" data-section="S.313 CRPC">Explain ✨</button>) ❓
+                    <span class="info-box block mt-1">Court questions accused (no oath) to explain circumstances.</span>
+                </div>
+                <div class="connector">↓</div>
+                 <div class="flow-box decision-box">Accused wishes to lead Defense Evidence?</div>
+                 <div class="connector">↓ (YES)</div>
+                <div class="flow-box action-box">Defense Evidence 🛡️
+                    (<span class="section-ref">Ss.233</span><button class="gemini-button explain-section-btn" data-section="S.233 CRPC">Explain ✨</button>, 
+                    <span class="section-ref">243</span><button class="gemini-button explain-section-btn" data-section="S.243 CRPC">Explain ✨</button>, 
+                    <span class="section-ref">254 CRPC</span><button class="gemini-button explain-section-btn" data-section="S.254 CRPC Defense">Explain ✨</button>)
+                    <span class="info-box block mt-1">Defense examines witnesses, Prosecution cross-examines. (If not acquitted after prosecution evidence in Sessions trial - <span class="section-ref">S.232</span><button class="gemini-button explain-section-btn" data-section="S.232 CRPC">Explain ✨</button>)</span>
+                </div>
+                <div class="connector">↓</div>
+                <div class="flow-box action-box">Final Arguments by Prosecution & Defense 🎤 
+                    (<span class="section-ref">Ss.234</span><button class="gemini-button explain-section-btn" data-section="S.234 CRPC">Explain ✨</button>, 
+                    <span class="section-ref">246</span><button class="gemini-button explain-section-btn" data-section="S.246 CRPC Arguments">Explain ✨</button>, 
+                    <span class="section-ref">254 CRPC</span><button class="gemini-button explain-section-btn" data-section="S.254 CRPC Arguments">Explain ✨</button>)
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full max-w-4xl">
+            <div class="stage-title-container">
+                <div class="stage-title">Stage 6: Judgment ⚖️</div>
+                <button class="gemini-button summarize-stage-btn" data-stage-info="Stage 6: Judgment. After arguments, the court pronounces judgment (Ss.235, 248, 255). Outcomes are acquittal (not guilty) or conviction (guilty). If convicted, a sentencing hearing (S.235(2)) follows to determine punishment.">Summarize Stage ✨</button>
+            </div>
+            <div class="flow-box process-box mt-4">Pronouncement of Judgment by Court 
+                (<span class="section-ref">Ss.235</span><button class="gemini-button explain-section-btn" data-section="S.235 CRPC">Explain ✨</button>, 
+                <span class="section-ref">248</span><button class="gemini-button explain-section-btn" data-section="S.248 CRPC">Explain ✨</button>, 
+                <span class="section-ref">255 CRPC</span><button class="gemini-button explain-section-btn" data-section="S.255 CRPC">Explain ✨</button>)
+            </div>
+            <div class="connector">↓</div>
+            <div class="flow-box decision-box">Guilt Proved Beyond Reasonable Doubt?</div>
+            <div class="path-container">
+                <div class="path-item">
+                    <div class="path-label">NO (Not Proved)</div>
+                    <div class="flow-box action-box">Acquittal: Accused found NOT GUILTY ✅</div>
+                </div>
+                <div class="path-item">
+                    <div class="path-label">YES (Proved)</div>
+                    <div class="flow-box action-box">Conviction: Accused found GUILTY ❌</div>
+                    <div class="connector">↓</div>
+                    <div class="flow-box process-box">Sentencing Hearing 
+                        <span class="section-ref">(S.235(2) CRPC)</span>
+                        <button class="gemini-button explain-section-btn" data-section="S.235(2) CRPC">Explain ✨</button>
+                    </div>
+                    <div class="flow-box info-box">Court hears arguments on quantum of sentence.</div>
+                    <div class="flow-box action-box mt-2">Possible Sentences: Imprisonment, Fine, Death Penalty (rarest of rare).</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full max-w-4xl">
+            <div class="stage-title-container">
+                <div class="stage-title">Stage 7: Post-Judgment Proceedings ⤴️</div>
+                 <button class="gemini-button summarize-stage-btn" data-stage-info="Stage 7: Post-Judgment Proceedings. This includes appeals by the convicted (Ss.372-394) or state (S.378), revision petitions for legal errors (Ss.397-401), execution of sentence (Ss.413-424), and mercy petitions for death/life sentences (Art.72, 161 Constitution).">Summarize Stage ✨</button>
+            </div>
+            <div class="flow-box process-box mt-4">Appeal Options</div>
+            <div class="path-container">
+                <div class="path-item">
+                    <div class="flow-box info-box">Convicted person aggrieved?</div>
+                    <div class="connector">↓ (YES)</div>
+                    <div class="flow-box action-box">Can file Appeal to Higher Court 
+                        (<span class="section-ref">Ss.372-394 CRPC</span><button class="gemini-button explain-section-btn" data-section="Ss.372-394 CRPC">Explain ✨</button>)
+                    </div>
+                    <div class="flow-box court-box">Hierarchy: JMFC/MM → Sessions; Sessions → HC; HC → SC.</div>
+                </div>
+                <div class="path-item">
+                    <div class="flow-box info-box">State/Prosecution aggrieved by acquittal/sentence?</div>
+                    <div class="connector">↓ (YES)</div>
+                    <div class="flow-box action-box">Can file Appeal (with leave for acquittal) 
+                        <span class="section-ref">(S.378 CRPC)</span>
+                        <button class="gemini-button explain-section-btn" data-section="S.378 CRPC">Explain ✨</button>
+                    </div>
+                </div>
+            </div>
+            <div class="connector">↓</div>
+            <div class="flow-box process-box">Revision</div>
+            <div class="flow-box info-box">IF there is an error in law or procedure (not necessarily ground for appeal):</div>
+            <div class="connector">↓</div>
+            <div class="flow-box action-box">Party can file Revision Petition to Higher Court 
+                (<span class="section-ref">Ss.397-401 CRPC</span><button class="gemini-button explain-section-btn" data-section="Ss.397-401 CRPC">Explain ✨</button>)
+            </div>
+            <div class="flow-box court-box">Court: Sessions Court or High Court.</div>
+            <div class="connector">↓</div>
+            <div class="flow-box process-box">Execution of Sentence</div>
+            <div class="flow-box info-box">IF conviction and sentence are upheld:</div>
+            <div class="connector">↓</div>
+            <div class="flow-box action-box">Sentence is Executed 
+                (<span class="section-ref">Ss.413-424 CRPC</span><button class="gemini-button explain-section-btn" data-section="Ss.413-424 CRPC">Explain ✨</button>)
+            </div>
+            <div class="connector">↓</div>
+            <div class="flow-box process-box">Mercy Petition (for Death Penalty/Life Imprisonment)</div>
+            <div class="flow-box info-box">IF death penalty awarded and upheld by Supreme Court:</div>
+            <div class="connector">↓</div>
+            <div class="flow-box action-box">Convict can file Mercy Petition to Governor 
+                (<span class="section-ref">Art.161 Const.</span><button class="gemini-button explain-section-btn" data-section="Article 161 of the Indian Constitution">Explain ✨</button>)
+                 or President 
+                (<span class="section-ref">Art.72 Const.</span><button class="gemini-button explain-section-btn" data-section="Article 72 of the Indian Constitution">Explain ✨</button>) 🙏
+            </div>
+        </div>
+
+        <div class="text-center text-sm text-gray-600 mt-8 pb-8">
+            This flowchart provides a general overview. Specific cases may have variations. <br> Explanations are for informational purposes.
+        </div>
+    </div>
+
+    <div id="infoModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalTitle" class="modal-title">Explanation</h3>
+            <div id="modalBody" class="modal-body">
+                </div>
+            <button id="modalCloseBtn" class="modal-close-btn">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Get modal elements
+        const infoModal = document.getElementById('infoModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+        // --- START OF EMBEDDED CONTENT ---
+        const offlineContent = {
+            // Sections
+            "S.154 CRPC": "Section 154 of the Code of Criminal Procedure (CRPC) mandates the recording of a First Information Report (FIR) for cognizable offences.\n\nMain Purpose: To set the criminal law in motion upon receiving information about a cognizable offence (an offence where police can arrest without a warrant).\n\nKey Provisions:\n1. Oral information must be written down by the police officer, read over to the informant, and signed by them.\n2. The substance of the FIR is entered into a station diary.\n3. A copy of the FIR must be given to the informant free of cost.\n\nSignificance: The FIR is a crucial document that forms the basis for police investigation. It's the first step in the formal criminal justice process for serious offences.",
+            "S.155 CRPC": "Section 155 CRPC deals with information regarding non-cognizable offences (less serious offences where police cannot arrest or investigate without a Magistrate's order).\n\nMain Purpose: To prescribe the procedure when police receive information about a non-cognizable offence.\n\nKey Provisions:\n1. Police must enter the substance of the information in a prescribed book (Non-Cognizable Report or NCR).\n2. The informant must be referred to the Magistrate.\n3. Police cannot investigate a non-cognizable case without an order from a Magistrate having power to try such case or commit the case for trial.\n\nSignificance: It distinguishes police powers for minor offences, ensuring judicial oversight before investigation begins, thereby preventing potential harassment.",
+            "S.154(3) CRPC": "Section 154(3) CRPC provides a remedy if a police officer in charge of a police station refuses to record an FIR for a cognizable offence as required under S.154(1).\n\nMain Purpose: To ensure that a person aggrieved by police inaction in registering an FIR has an alternative recourse.\n\nKey Provision: The informant can send the substance of the information, in writing and by post, to the Superintendent of Police (SP) concerned. If the SP is satisfied that such information discloses the commission of a cognizable offence, the SP shall either investigate the case or direct an investigation by a subordinate police officer.\n\nSignificance: This provision acts as a check on the power of the station house officer and provides an administrative remedy to the informant.",
+            "S.200 CRPC": "Section 200 CRPC outlines the procedure for a Magistrate taking cognizance of an offence based on a complaint. This is typically when an individual directly approaches the court with a grievance, often after police inaction or for non-cognizable offences.\n\nMain Purpose: To enable the Magistrate to examine the complainant and any witnesses present before deciding whether to proceed with the case.\n\nKey Provisions:\n1. A Magistrate taking cognizance of an offence on complaint shall examine upon oath the complainant and the witnesses present, if any.\n2. The substance of such examination shall be reduced to writing and shall be signed by the complainant, witnesses, and the Magistrate.\n\nSignificance: This initial examination helps the Magistrate ascertain if there's a prima facie case and sufficient grounds to issue process against the accused. It's a crucial step in private complaints.",
+            "S.156 CRPC": "Section 156 CRPC empowers police officers to investigate cognizable offences.\n\nMain Purpose: To grant statutory power to the police to investigate serious offences without needing an order from a Magistrate.\n\nKey Provisions:\n1. Any officer in charge of a police station may, without the order of a Magistrate, investigate any cognizable case which a Court having jurisdiction over the local area within the limits of such station would have power to inquire into or try.\n2. No proceeding of a police officer in any such case shall at any stage be called in question on the ground that the case was one which such officer was not empowered under this section to investigate.\n3. A Magistrate empowered under S.190 may order such an investigation (this is often referred to as an investigation under S.156(3) CRPC, a powerful tool for complainants if police don't register an FIR).\n\nSignificance: This section is the bedrock of police investigatory powers for cognizable crimes, allowing for swift action.",
+            "S.155(2) CRPC": "Section 155(2) CRPC explicitly prohibits a police officer from investigating a non-cognizable offence without the order of a Magistrate who has the power to try such a case or commit it for trial.\n\nMain Purpose: To ensure judicial scrutiny before police resources are used to investigate less serious (non-cognizable) offences and to protect individuals from unwarranted police investigation in such matters.\n\nKey Provision: 'No police officer shall investigate a non-cognizable case without the order of a Magistrate having power to try such case or commit the case for trial.'\n\nSignificance: It upholds the distinction between cognizable and non-cognizable offences by requiring magisterial approval for investigating the latter, thus safeguarding individual liberties.",
+            "Ss.41-60A CRPC": "Sections 41 to 60A of the CRPC deal extensively with the arrest of persons by the police.\n\nMain Purpose: To lay down the circumstances under which police can arrest, the procedure for arrest, and the rights of an arrested person.\n\nKey Provisions include:\n- S.41: When police may arrest without a warrant (e.g., for cognizable offences, credible information, reasonable suspicion).\n- S.41A: Notice of appearance before police officer (for cases where arrest is not immediately necessary).\n- S.41B: Procedure of arrest and duties of officer making arrest (e.g., bearing accurate identification, preparing memo of arrest attested by witness and countersigned by arrestee).\n- S.41D: Right of arrested person to meet an advocate of his choice during interrogation.\n- S.46: How arrest is made.\n- S.50: Person arrested to be informed of grounds of arrest and of right to bail.\n- S.50A: Obligation of person making arrest to inform about the arrest to a nominated person.\n- S.54: Medical examination of arrested person at their request.\n- S.57: Person arrested not to be detained more than 24 hours without judicial remand.\n\nSignificance: These sections balance the police's need to make arrests for investigation and crime prevention with the fundamental rights and liberties of individuals, aiming to prevent arbitrary or illegal arrests.",
+            "Ss.70-81 CRPC": "Sections 70 to 81 of the CRPC deal with the process to compel appearance, specifically concerning Warrants of Arrest.\n\nMain Purpose: To provide the legal framework for issuing, executing, and managing warrants of arrest when a person's presence is required by a court and they do not appear voluntarily (e.g., after summons are ignored or in serious cases).\n\nKey Provisions:\n- S.70: Form of warrant of arrest and duration (must be in writing, signed by presiding officer, bear court seal, and remains in force until cancelled or executed).\n- S.71: Power to direct security to be taken (court can endorse on warrant that if person gives security, they can be released).\n- S.72: Warrants to whom directed (normally to police officers, but can be to other persons if police not available).\n- S.73: Warrant may be directed to any person (in specific cases like escaped convict, proclaimed offender).\n- S.74: Warrant directed to police officer (can be executed by any other police officer whose name is endorsed).\n- S.76: Person arrested to be brought before Court without delay (subject to S.71 security provisions).\n- S.77: Where warrant may be executed (any place in India).\n- Ss.78-79: Procedure for execution of warrant outside the local jurisdiction of the issuing court.\n\nSignificance: These sections ensure that courts have the means to secure the presence of accused persons or witnesses who are evading the legal process, thereby enabling the trial to proceed.",
+            "S.57 CRPC": "Section 57 CRPC mandates that a person arrested without a warrant cannot be detained in police custody for more than 24 hours without being produced before a Magistrate.\n\nMain Purpose: To safeguard against illegal or prolonged detention by the police and to ensure judicial oversight of arrests.\n\nKey Provision: 'No police officer shall detain in custody a person arrested without warrant for a longer period than under all the circumstances of the case is reasonable, and such period shall not, in the absence of a special order of a Magistrate under section 167, exceed twenty-four hours exclusive of the time necessary for the journey from the place of arrest to the Magistrate's Court.'\n\nSignificance: This is a critical constitutional and statutory safeguard (also reflected in Article 22(2) of the Constitution). It ensures that an arrested person is brought before a judicial authority promptly, who can then decide on the legality of the arrest and the necessity for further detention (remand under S.167).",
+            "S.167 CRPC": "Section 167 CRPC deals with the procedure when an investigation cannot be completed within 24 hours of arrest.\n\nMain Purpose: To provide for judicial remand of an accused person beyond the initial 24-hour period if the investigation is ongoing and further detention is necessary.\n\nKey Provisions:\n1. If investigation is not complete in 24 hours and there are grounds to believe the accusation is well-founded, the police officer must produce the accused before the nearest Judicial Magistrate.\n2. The Magistrate can authorize detention of the accused in police custody (for a maximum of 15 days in total initially) or judicial custody.\n3. Total detention period under this section cannot exceed: (a) 90 days, where the investigation relates to an offence punishable with death, imprisonment for life or imprisonment for a term of not less than ten years; (b) 60 days, where the investigation relates to any other offence.\n4. If the charge-sheet is not filed within this 60/90 day period, the accused is entitled to 'default bail'.\n\nSignificance: S.167 balances the investigative needs of the police with the liberty of the individual, ensuring that detention is judicially scrutinized and time-limited. The provision for default bail is a crucial right for the accused if investigation is unduly delayed.",
+            "S.436 CRPC": "Section 436 CRPC deals with the grant of bail in bailable offences.\n\nMain Purpose: To establish that in cases of bailable offences, an arrested person has a right to be released on bail.\n\nKey Provisions:\n1. When any person accused of a bailable offence is arrested or detained without warrant by an officer in charge of a police station, or appears or is brought before a Court, and is prepared to give bail, such person SHALL be released on bail.\n2. The police officer or court can, instead of taking bail, discharge them on executing a bond without sureties for their appearance (personal recognizance bond).\n\nSignificance: This section makes bail a matter of right, not discretion, for bailable offences. It underscores the principle that individuals should not be unnecessarily detained for less serious crimes, provided they can assure their presence for trial.",
+            "S.437 CRPC": "Section 437 CRPC governs the grant of bail in non-bailable offences by a Magistrate's Court.\n\nMain Purpose: To outline the conditions and considerations for a Magistrate when deciding on bail applications for more serious (non-bailable) offences.\n\nKey Provisions:\n1. Bail is discretionary for non-bailable offences.\n2. Bail shall not ordinarily be granted if there are reasonable grounds for believing that the accused has committed an offence punishable with death or imprisonment for life.\n3. Bail shall also not ordinarily be granted if the accused has been previously convicted of an offence punishable with death, life imprisonment, or imprisonment for seven years or more, or has been previously convicted on two or more occasions of a cognizable offence punishable with imprisonment for three years or more but not less than seven years.\n4. However, the above restrictions can be relaxed for persons under 16, women, or sick/infirm persons.\n5. The Magistrate may impose conditions while granting bail.\n6. If trial is not concluded within 60 days for an accused in custody, they may be released on bail, subject to certain conditions.\n\nSignificance: This section provides a framework for Magistrates to exercise their discretion in granting bail for non-bailable offences, balancing the liberty of the individual against the interests of justice, public safety, and ensuring the accused's presence at trial.",
+            "S.439 CRPC": "Section 439 CRPC confers special powers on the High Court and the Court of Session regarding bail.\n\nMain Purpose: To provide these higher courts with broader discretionary powers to grant, cancel, or modify bail conditions, including for cases pending before lower courts.\n\nKey Provisions:\n1. A High Court or Court of Session may direct that any person accused of an offence and in custody be released on bail.\n2. They can set aside or modify any condition imposed by a Magistrate when granting bail.\n3. They have the power to direct that any person who has been released on bail be arrested and commit them to custody (bail cancellation).\n4. Before granting bail to a person accused of an offence triable exclusively by the Court of Session or punishable with life imprisonment, notice must be given to the Public Prosecutor unless it's not practicable.\n\nSignificance: This section provides an avenue for seeking bail when it's refused by a Magistrate or for seeking more favorable conditions. It also empowers higher courts to intervene if bail has been improperly granted or if the accused misuses their liberty.",
+            "S.438 CRPC": "Section 438 CRPC deals with Anticipatory Bail, which is a direction to release a person on bail even before they are arrested.\n\nMain Purpose: To protect individuals from potential harassment or false implication by allowing them to seek bail in anticipation of an arrest for a non-bailable offence.\n\nKey Provisions:\n1. A person who has reason to believe they may be arrested on an accusation of having committed a non-bailable offence can apply to the High Court or Court of Session for a direction under this section.\n2. The court, after considering factors like the nature of the accusation, antecedents of the applicant, and possibility of fleeing justice, may issue an interim order or a final order granting anticipatory bail.\n3. The court can impose conditions, such as making oneself available for interrogation, not leaving India, not tampering with evidence, etc.\n\nSignificance: Anticipatory bail is a crucial safeguard for personal liberty, preventing arrest in cases where it might be malicious or unwarranted, while ensuring the applicant cooperates with the investigation.",
+            "S.161 CRPC": "Section 161 CRPC empowers any police officer making an investigation to examine orally any person supposed to be acquainted with the facts and circumstances of the case.\n\nMain Purpose: To enable the investigating officer to gather information and evidence by questioning witnesses or anyone who might have knowledge about the offence.\n\nKey Provisions:\n1. The police officer may reduce into writing any statement made to them during such examination. If they do so, they shall make a separate and true record of the statement of each such person whose statement they record.\n2. The person being questioned is bound to answer truthfully all questions relating to the case, except questions the answers to which would have a tendency to expose them to a criminal charge or to a penalty or forfeiture.\n3. Statements recorded under S.161 are not signed by the witness and cannot be used as substantive evidence in court, but can be used for contradicting a witness during trial (under S.145 of the Indian Evidence Act).\n\nSignificance: This is a primary tool for police investigation, allowing them to collect testimonial accounts from potential witnesses. The statements help in forming an opinion about the case and identifying evidence.",
+            "S.164 CRPC": "Section 164 CRPC deals with the recording of confessions and statements by a Magistrate.\n\nMain Purpose: To provide a mechanism for recording confessions made by an accused person or statements made by witnesses before a judicial officer, which lends them greater evidentiary value and safeguards against coercion.\n\nKey Provisions:\n1. Any Metropolitan Magistrate or Judicial Magistrate may, whether or not they have jurisdiction in the case, record any confession or statement made to them in the course of an investigation or at any time afterwards before the commencement of the inquiry or trial.\n2. Before recording a confession, the Magistrate must explain to the accused that they are not bound to make a confession and that if they do so, it may be used as evidence against them. The Magistrate must be satisfied that the confession is voluntary.\n3. A confession is recorded and signed in the manner provided in S.281 CRPC and then forwarded to the Magistrate by whom the case is to be inquired into or tried.\n4. Statements (other than confessions) are recorded on oath.\n\nSignificance: Confessions recorded under S.164 are considered more reliable as they are made before a Magistrate with procedural safeguards. Witness statements recorded under this section also carry significant weight, especially if the witness later turns hostile.",
+            "Ss.93-103 CRPC": "Sections 93 to 103 of the CRPC deal with Search Warrants and general provisions relating to searches.\n\nMain Purpose: To lay down the procedures and conditions under which a court can issue a search warrant and how searches should be conducted by the police or other authorized persons to find persons wrongfully confined or to seize documents or things relevant to an investigation, inquiry, or trial.\n\nKey Provisions:\n- S.93: When search-warrant may be issued (e.g., when a person to whom summons/order under S.91 or S.92 has been addressed fails to produce document/thing; where court believes person will not produce; for general search or inspection).\n- S.94: Search of place suspected to contain stolen property, forged documents, etc.\n- S.97: Search for persons wrongfully confined.\n- S.100: Persons in charge of closed place to allow search. Requires presence of two or more independent and respectable inhabitants of the locality to witness the search (Panchas). A list of things seized (Panchnama/Seizure Memo) to be prepared and signed by witnesses. Copy given to occupant.\n- S.102: Power of police officer to seize certain property (suspected stolen or found under circumstances creating suspicion of an offence).\n\nSignificance: These sections provide legal authority for searches while also incorporating safeguards (like independent witnesses) to prevent abuse of power and ensure transparency in the collection of evidence.",
+            "Ss.53, 53A, 54 CRPC": "These sections deal with the medical examination of an arrested person.\n\nMain Purpose: To allow for medical examination of the accused for evidentiary purposes and to safeguard the accused's health and rights.\n\nKey Provisions:\n- S.53: Examination of accused by medical practitioner at the request of a police officer (not below sub-inspector rank) if there are reasonable grounds to believe that an examination will afford evidence as to the commission of an offence. Can include DNA profiling, blood samples etc. For female accused, examination by or under supervision of female medical practitioner.\n- S.53A: Examination of person accused of rape. Specific procedures for collecting evidence, including DNA. Must be conducted by registered medical practitioner with consent of accused or by order of court. Refusal can lead to adverse inference.\n- S.54: Examination of arrested person by medical officer. When a person is arrested, they shall be examined by a medical officer in Central/State Govt service, or by a registered medical practitioner. A copy of the inspection report shall be furnished to the arrested person or their nominee. This is a right of the accused and also helps document any injuries at the time of arrest.\n\nSignificance: These provisions aid in scientific investigation (e.g., DNA in rape cases, injuries in assault cases) and also protect the arrested person by documenting their physical state, potentially revealing custodial violence or pre-existing conditions.",
+            "S.173(2) CRPC": "Section 173(2) CRPC mandates the police to file a final report (commonly known as a 'Charge Sheet' if it recommends prosecution, or a 'Closure Report' if it doesn't) before a Magistrate upon completion of their investigation.\n\nMain Purpose: To inform the Magistrate of the outcome of the police investigation and the evidence collected, enabling the Magistrate to decide the future course of action.\n\nKey Provisions:\n1. As soon as the investigation is completed, the officer in charge of the police station shall forward to a Magistrate empowered to take cognizance of the offence on a police report, a report in the prescribed form.\n2. This report should state: names of parties, nature of information, names of persons acquainted with circumstances, whether any offence appears to have been committed and if so, by whom, whether accused has been arrested, whether released on bond, etc.\n3. The officer shall also communicate the action taken to the informant.\n\nSignificance: The police report is a critical document that marks the culmination of the investigation phase. Based on this report, the Magistrate decides whether to take cognizance of the offence, order further investigation, or accept a closure report.",
+            "S.173(2) CRPC Final Report": "When a police investigation under S.173(2) CRPC concludes that no offence is made out, or there is insufficient evidence to prosecute the accused, or the accused is untraceable, the police file a 'Final Report' or 'Closure Report' before the Magistrate.\n\nMain Purpose: To inform the court that, based on the investigation, the police do not propose to proceed with prosecution.\n\nKey Aspects:\n1. This report details the findings of the investigation and the reasons for recommending closure (e.g., lack of evidence, dispute being civil in nature, false complaint, untraced accused).\n2. The Magistrate is not bound by this police report. They can:\n    a. Accept the closure report and close the case.\n    b. Direct further investigation by the police (under S.156(3) or S.173(8) CRPC).\n    c. Disagree with the police and take cognizance of the offence based on the material on record and proceed with the case (e.g., issue summons to the accused).\n3. The informant (first informant or victim) has a right to be heard if the Magistrate decides to accept the closure report. They can file a 'Protest Petition' challenging the police findings.\n\nSignificance: The Final Report mechanism ensures judicial scrutiny even when police conclude against prosecution, providing an opportunity for the informant to contest the closure and for the Magistrate to independently apply their mind.",
+            "S.190 CRPC": "Section 190 CRPC deals with the 'cognizance of offences by Magistrates'. Cognizance means becoming aware of or taking judicial notice of an alleged offence, which is the first step by a court towards trial.\n\nMain Purpose: To specify how a Magistrate can initiate judicial proceedings regarding an offence.\n\nKey Provisions: A Judicial Magistrate of the first class (or second class if specially empowered) may take cognizance of any offence:\n(a) Upon receiving a complaint of facts which constitute such offence (a private complaint).\n(b) Upon a police report of such facts (i.e., a charge sheet filed under S.173 CRPC).\n(c) Upon information received from any person other than a police officer, or upon their own knowledge (suo motu cognizance), that such offence has been committed.\n\nSignificance: This section is the gateway for cases to enter the judicial system. Taking cognizance is an application of judicial mind to the alleged offence to determine if there are grounds to proceed further against the accused.",
+            "S.200 CRPC Complaint Case": "In a 'complaint case' (a case initiated by a private complaint directly to a Magistrate, not via a police FIR), Section 200 CRPC mandates the examination of the complainant and any witnesses present.\n\nMain Purpose: To allow the Magistrate to assess the veracity and substance of a private complaint before deciding to issue process against the accused.\n\nKey Provisions:\n1. When a Magistrate takes cognizance of an offence on a complaint, they must examine the complainant on oath.\n2. Any witnesses present with the complainant must also be examined on oath.\n3. The substance of this examination must be reduced to writing and signed by the complainant, the witnesses, and the Magistrate.\n\nExceptions: Examination may not be necessary if the complaint is made by a public servant acting in discharge of official duties or by a court, or if the Magistrate makes over the case for inquiry or trial to another Magistrate under S.192.\n\nSignificance: This step ensures that private complaints are not frivolous or vexatious. It helps the Magistrate to satisfy themselves that there are prima facie grounds to proceed further against the person(s) named as accused in the complaint.",
+            "S.204 CRPC": "Section 204 CRPC deals with the 'Issue of Process' by a Magistrate.\n\nMain Purpose: This section comes into play after a Magistrate has taken cognizance of an offence and is of the opinion that there is sufficient ground for proceeding against the accused.\n\nKey Provisions:\n1. If the Magistrate believes there are sufficient grounds, they will issue a summons if it's a summons case, or a warrant (or summons first, if appropriate) if it's a warrant case, for the accused to appear.\n2. No summons or warrant shall be issued against the accused until a list of the prosecution witnesses has been filed.\n3. In a proceeding instituted upon a complaint made in writing, every summons or warrant issued shall be accompanied by a copy of such complaint.\n4. Process fees, if any, must be paid before process is issued.\n\nSignificance: Issuing process is a formal step that initiates the accused's involvement in the court proceedings. It signifies that the court has found a prima facie case against the accused and requires their appearance to answer the charges.",
+            "S.203 CRPC": "Section 203 CRPC empowers a Magistrate to dismiss a complaint if, after considering the statements on oath (if any) of the complainant and witnesses (under S.200 or S.202 inquiry/investigation), they are of the opinion that there is no sufficient ground for proceeding.\n\nMain Purpose: To filter out frivolous, vexatious, or unsubstantiated complaints at an early stage, preventing unnecessary harassment to individuals named as accused.\n\nKey Provisions:\n1. The Magistrate must record their reasons for dismissing the complaint.\n2. This dismissal can occur if, after considering the initial evidence and inquiry/investigation results (if any under S.202), the Magistrate finds no sufficient ground to proceed further.\n\nSignificance: This section acts as a judicial check on private complaints, ensuring that only cases with some merit move forward. It's a crucial tool for preventing abuse of the legal process.",
+            "Ss.207-209 CRPC": "Sections 207, 208, and 209 of the CRPC deal with the supply of documents to the accused and the committal of cases to the Court of Session when the offence is exclusively triable by it.\n\nMain Purpose: To ensure the accused is aware of the evidence against them (S.207 for police report cases, S.208 for complaint cases) and to transfer serious cases to the appropriate higher court (Court of Session) for trial (S.209).\n\nKey Provisions:\n- S.207: Supply to the accused of copy of police report and other documents (like FIR, statements recorded under S.161 & S.164, confessions, etc.) in cases instituted on a police report.\n- S.208: Supply of copies of statements and documents to accused in other cases triable by Court of Session (i.e., complaint cases where offence is sessions triable).\n- S.209: Commitment of case to Court of Session when offence is triable exclusively by it. The Magistrate, after complying with S.207 or S.208, if it appears that the offence is triable exclusively by the Court of Session, shall commit the case to the Court of Session, send the record, and remand the accused to custody during and until conclusion of trial (subject to bail provisions).\n\nSignificance: Supplying documents upholds the principle of a fair trial by allowing the accused to prepare their defense. Committal ensures that grave offences are tried by a higher court with adequate powers and jurisdiction.",
+            "Ss.211-224 CRPC": "Sections 211 to 224 of the CRPC deal with the 'Charge' – its form, content, joinder of charges, and effect of errors.\n\nMain Purpose: To precisely inform the accused of the specific accusations they have to face at trial, enabling them to prepare their defense.\n\nKey Provisions:\n- S.211: Contents of Charge (must state offence, law and section defining it, time and place of offence, person/thing against whom committed).\n- S.212: Particulars as to time, place, and person.\n- S.214: Words in charge taken in sense of law under which offence is punishable.\n- S.215: Effect of errors (no error in stating offence or particulars is material unless accused was misled and it caused failure of justice).\n- S.216: Court may alter charge at any time before judgment.\n- S.218: Separate charges for distinct offences (general rule).\n- S.219: Three offences of same kind within a year may be charged together.\n- S.220: Trial for more than one offence if committed in one series of acts forming same transaction.\n- S.221: Where it is doubtful what offence has been committed.\n- S.223: What persons may be charged jointly.\n\nSignificance: The framing of a clear and accurate charge is fundamental to a fair trial. It defines the scope of the trial and informs the accused exactly what they are being tried for.",
+            "S.227 CRPC": "Section 227 CRPC deals with the discharge of an accused in a trial before a Court of Session.\n\nMain Purpose: To allow the Sessions Court to discharge an accused person without proceeding to a full trial if, upon considering the record of the case and documents submitted, and after hearing both prosecution and accused, the Judge considers that there is not sufficient ground for proceeding against the accused.\n\nKey Provision: 'If, upon consideration of the record of the case and the documents submitted therewith, and after hearing the submissions of the accused and the prosecution in this behalf, the Judge considers that there is not sufficient ground for proceeding against the accused, he shall discharge the accused and record his reasons for so doing.'\n\nSignificance: This is an important stage where the Sessions Court applies its mind to the material collected during investigation to see if a prima facie case exists. If not, the accused is spared the ordeal of a full trial. It acts as a filter for unsubstantiated cases.",
+            "S.239 CRPC": "Section 239 CRPC provides for the discharge of an accused in a warrant case tried by a Magistrate, instituted on a police report.\n\nMain Purpose: To empower a Magistrate to discharge an accused if, after considering the police report and documents sent under S.173 and examining the accused (if necessary), the Magistrate considers the charge against the accused to be groundless.\n\nKey Provision: 'If, upon considering the police report and the documents sent with it under section 173 and making such examination, if any, of the accused as the Magistrate thinks necessary and after giving the prosecution and the accused an opportunity of being heard, the Magistrate considers the charge against the accused to be groundless, he shall discharge the accused and record his reasons for so doing.'\n\nSignificance: Similar to S.227 for Sessions trials, S.239 allows the Magistrate in warrant cases (based on police reports) to assess if there's a prima facie case. If the charge is deemed groundless, the accused is discharged, avoiding a full trial.",
+            "S.245 CRPC": "Section 245 CRPC deals with the discharge of an accused in a warrant case instituted otherwise than on a police report (i.e., a complaint case) and tried by a Magistrate.\n\nMain Purpose: To allow the Magistrate to discharge the accused if, upon taking all the evidence referred to in S.244 (evidence for prosecution in complaint cases), the Magistrate considers that no case against the accused has been made out which, if unrebutted, would warrant their conviction.\n\nKey Provisions:\n- S.245(1): If, upon taking all evidence for prosecution, Magistrate finds no case made out for conviction, they shall discharge the accused.\n- S.245(2): Magistrate can also discharge the accused at any previous stage if, for reasons recorded, they consider the charge to be groundless.\n\nSignificance: This provision enables discharge in complaint-based warrant cases if the prosecution's evidence, even if taken at face value, doesn't establish a case for conviction. It prevents the continuation of a trial where the foundational evidence is lacking.",
+            "Ss.225-237 CRPC": "Sections 225 to 237 CRPC lay down the procedure for trial before a Court of Session.\n\nMain Purpose: To provide a structured process for conducting trials for serious offences that are exclusively triable by the Court of Session (e.g., murder, dacoity).\n\nKey Stages/Provisions:\n- S.225: Trial to be conducted by Public Prosecutor.\n- S.226: Opening case for prosecution (Prosecutor describes charge and evidence).\n- S.227: Discharge (if no sufficient ground for proceeding).\n- S.228: Framing of charge (if prima facie case exists).\n- S.229: Conviction on plea of guilty.\n- S.230: Date for prosecution evidence (if accused pleads not guilty or doesn't plead).\n- S.231: Evidence for prosecution (examination, cross-examination, re-examination of witnesses).\n- S.232: Acquittal (if, after prosecution evidence and accused's examination, Judge finds no evidence that accused committed offence).\n- S.233: Entering upon defence (if not acquitted under S.232, accused asked to produce defence evidence).\n- S.234: Arguments (Prosecution sums up, then defence, then prosecution replies).\n- S.235: Judgment of acquittal or conviction. If convicted, hearing on sentence.\n- S.236: Previous conviction (procedure if previous conviction is charged for enhanced punishment).\n\nSignificance: These sections ensure a fair and orderly trial for grave offences, with opportunities for both prosecution and defence to present their cases before a senior court.",
+            "Ss.238-250 CRPC Police Report": "Sections 238 to 243 and 248-250 CRPC outline the procedure for trial of 'Warrant Cases' by Magistrates when such cases are 'instituted on a police report' (i.e., based on a charge sheet filed by police).\n\nMain Purpose: To provide a detailed trial process for offences punishable with imprisonment for more than two years, initiated through police investigation.\n\nKey Stages/Provisions:\n- S.238: Compliance with S.207 (supply of documents to accused).\n- S.239: Discharge (if charge is groundless).\n- S.240: Framing of charge (if prima facie case exists).\n- S.241: Conviction on plea of guilty.\n- S.242: Evidence for prosecution (if accused pleads not guilty or doesn't plead).\n- S.243: Evidence for defence.\n- S.248: Acquittal or conviction (Judgment). If convicted, hearing on sentence (similar to S.235(2) principles).\n- S.249: Absence of complainant (Magistrate may discharge accused if complainant absent on hearing day, in certain circumstances).\n- S.250: Compensation for accusation without reasonable cause.\n\nSignificance: This procedure ensures a structured trial for relatively serious offences tried by Magistrates, balancing efficiency with fairness, particularly when the case originates from a police investigation.",
+            "Ss.244-247 CRPC Complaint Case": "Sections 244 to 247, along with 248-250 CRPC, detail the procedure for trial of 'Warrant Cases' by Magistrates when such cases are 'instituted otherwise than on a police report' (i.e., based on a private complaint).\n\nMain Purpose: To provide a trial process for offences punishable with imprisonment for more than two years, initiated through a private complaint to the Magistrate.\n\nKey Stages/Provisions:\n- S.244: Evidence for prosecution (Magistrate proceeds to hear prosecution and take all such evidence as may be produced in support of prosecution. Magistrate may issue summons to any witness on application of prosecution).\n- S.245: Discharge (if no case made out after prosecution evidence, or at any previous stage if charge groundless).\n- S.246: Procedure where accused is not discharged (If not discharged, charge framed, accused asked to plead. If pleads guilty, conviction. If not, accused given opportunity to cross-examine prosecution witnesses whose evidence has been taken. Defence evidence then taken).\n- S.247: Evidence for defence.\n- S.248: Acquittal or conviction (Judgment). Hearing on sentence if convicted.\n- S.249 & S.250 also apply (Absence of complainant, Compensation).\n\nSignificance: This procedure differs slightly from police report cases, particularly in how prosecution evidence is led initially (S.244). It ensures a fair trial for privately initiated warrant cases.",
+            "Ss.251-259 CRPC": "Sections 251 to 259 CRPC lay down the procedure for trial of 'Summons Cases' by Magistrates.\n\nMain Purpose: To provide a simpler and speedier trial procedure for less serious offences (generally those punishable with imprisonment not exceeding two years).\n\nKey Stages/Provisions:\n- S.251: Substance of accusation to be stated (When accused appears, particulars of offence shall be stated, and they shall be asked if they plead guilty or have any defence. Formal charge framing not required).\n- S.252: Conviction on plea of guilty.\n- S.253: Conviction on plea of guilty in absence of accused in petty cases (accused can plead guilty by post).\n- S.254: Procedure when not convicted (Magistrate hears prosecution and takes evidence, then hears accused and takes defence evidence).\n- S.255: Acquittal or conviction (Judgment).\n- S.256: Non-appearance or death of complainant (Magistrate may acquit accused unless attendance not required).\n- S.258: Power to stop proceedings in certain cases (In any summons case instituted otherwise than upon complaint, Magistrate may stop proceedings without pronouncing judgment, which amounts to acquittal if stopped after evidence of principal witnesses recorded, otherwise release).\n- S.259: Power of Court to convert summons-cases into warrant-cases (If offence punishable with more than 6 months imprisonment and in interest of justice).\n\nSignificance: This procedure is designed for quicker disposal of minor cases, dispensing with some formalities of warrant trials, like formal charge framing.",
+            "Ss.260-265 CRPC": "Sections 260 to 265 CRPC deal with 'Summary Trials'.\n\nMain Purpose: To provide an even speedier trial procedure for certain specified petty offences, aiming for quick disposal and reducing the burden on courts.\n\nKey Provisions:\n- S.260: Power to try summarily (Chief Judicial Magistrate, Metropolitan Magistrate, Judicial Magistrate First Class specially empowered can try specified offences summarily, e.g., offences not punishable with death, life imprisonment or imprisonment exceeding two years; theft under Rs. 2000, etc.).\n- S.261: Summary trial by Magistrate of the second class (if empowered by High Court, for offences punishable only with fine or imprisonment not exceeding 6 months).\n- S.262: Procedure for summary trials (Procedure for summons case shall be followed, except as mentioned. Sentence of imprisonment not to exceed three months for any conviction in summary trial).\n- S.263: Record in summary trials (Magistrate to enter specified particulars in a prescribed form, formal judgment not required unless requested).\n- S.264: Judgment in cases tried summarily (Magistrate to record substance of evidence and a judgment containing brief statement of reasons for finding).\n- S.265: Language of record and judgment.\n\nSignificance: Summary trials significantly expedite the justice process for minor offences by simplifying procedures and record-keeping, but with a limitation on the maximum sentence that can be imposed.",
+            "S.231 CRPC": "Section 231 CRPC, part of the procedure for trial before a Court of Session, deals with the recording of 'Evidence for Prosecution'.\n\nMain Purpose: To outline how the prosecution presents its evidence after a charge has been framed and the accused has pleaded not guilty or does not plead.\n\nKey Provision: 'On the date so fixed (for prosecution evidence), the Judge shall proceed to take all such evidence as may be produced in support of the prosecution.' The Judge may, in their discretion, permit the cross-examination of any witness to be deferred until any other witness or witnesses have been examined or recall any witness for further cross-examination.\n\nProcess: This involves:\n1. Examination-in-chief: Prosecutor elicits testimony from prosecution witnesses.\n2. Cross-examination: Defence counsel questions the prosecution witnesses.\n3. Re-examination: Prosecutor may re-question witnesses on points arising from cross-examination.\n\nSignificance: This is a critical stage where the prosecution attempts to prove its case beyond reasonable doubt by presenting oral and documentary evidence.",
+            "S.242 CRPC": "Section 242 CRPC deals with 'Evidence for Prosecution' in the trial of warrant cases instituted on a police report, before a Magistrate.\n\nMain Purpose: To specify how prosecution evidence is taken after a charge is framed (under S.240) and the accused pleads not guilty or doesn't plead (or is not convicted on a guilty plea under S.241).\n\nKey Provisions:\n1. The Magistrate shall proceed to take all such evidence as may be produced in support of the prosecution.\n2. The Magistrate may permit the cross-examination of any witness to be deferred until any other witness or witnesses have been examined or recall any witness for further cross-examination.\n\nSignificance: Similar to S.231 in Sessions trials, this section outlines the process for the prosecution to present its evidence (examination-in-chief, cross-examination by defence, re-examination) to establish the guilt of the accused in warrant cases based on police reports.",
+            "S.244 CRPC": "Section 244 CRPC details the 'Evidence for Prosecution' in warrant cases instituted otherwise than on a police report (i.e., private complaint cases) before a Magistrate.\n\nMain Purpose: To outline the procedure for the prosecution (complainant) to present their evidence after the accused appears or is brought before the Magistrate.\n\nKey Provisions:\n1. When, in any warrant-case instituted otherwise than on a police report, the accused appears or is brought before a Magistrate, the Magistrate shall proceed to hear the prosecution and take all such evidence as may be produced in support of the prosecution.\n2. The Magistrate may, on the application of the prosecution, issue a summons to any of its witnesses directing them to attend or to produce any document or other thing.\n\nSignificance: This is the stage where the complainant adduces evidence to build their case. It differs from police report cases as it's the first formal presentation of evidence by the complainant after the accused's appearance. Based on this evidence, the Magistrate will decide on discharge (S.245) or framing charges (S.246).",
+            "S.254 CRPC": "Section 254 CRPC outlines the procedure when an accused is not convicted on a plea of guilty in a summons case.\n\nMain Purpose: To detail how evidence is taken from both prosecution and defence in a summons trial.\n\nKey Provisions:\n1. The Magistrate shall proceed to hear the prosecution and take all such evidence as may be produced in support of the prosecution.\n2. The Magistrate shall also hear the accused and take all such evidence as the accused produces in their defence.\n3. The Magistrate may, if they think fit, on the application of the prosecution or the accused, issue a summons to any witness directing them to attend or to produce any document or other thing.\n\nSignificance: This section provides for a full, albeit simpler, evidentiary process in summons cases, ensuring both sides have an opportunity to present their case before a judgment is rendered under S.255.",
+            "S.313 CRPC": "Section 313 CRPC provides for the 'Examination of the Accused' by the court.\n\nMain Purpose: To give the accused an opportunity to personally explain any circumstances appearing in the evidence against them. It is a direct dialogue between the court and the accused.\n\nKey Provisions:\n1. In every inquiry or trial, for the purpose of enabling the accused personally to explain any circumstances appearing in the evidence against them, the Court:\n    (a) may at any stage, without previously warning the accused, put such questions to them as the Court considers necessary;\n    (b) shall, after the witnesses for the prosecution have been examined and before the accused is called on for their defence, question them generally on the case.\n2. No oath shall be administered to the accused when they are examined under this section.\n3. The answers given by the accused may be taken into consideration in such inquiry or trial, and put in evidence for or against them in any other inquiry into, or trial for, any other offence which such answers may tend to show they have committed.\n4. The accused is not liable to punishment for refusing to answer or giving false answers, but the court may draw adverse inferences.\n\nSignificance: This is a vital part of a fair trial, embodying the principle of audi alteram partem (hear the other side). It allows the accused to clarify their position directly to the court on the evidence presented by the prosecution.",
+            "S.232 CRPC": "Section 232 CRPC, within the procedure for trial before a Court of Session, deals with 'Acquittal' if there is no evidence against the accused after the prosecution has presented its case and the accused has been examined under S.313.\n\nMain Purpose: To provide for an early acquittal if the prosecution's evidence, even when taken at its highest, does not incriminate the accused.\n\nKey Provision: 'If, after taking the evidence for the prosecution, examining the accused and hearing the prosecution and the defence on the point, the Judge considers that there is no evidence that the accused committed the offence, the Judge shall record an order of acquittal.'\n\nSignificance: This section allows the court to conclude the trial and acquit the accused without requiring the defence to present its evidence, if the prosecution has fundamentally failed to establish a case. It saves judicial time and prevents the accused from undergoing the rest of the trial unnecessarily.",
+            "S.233 CRPC": "Section 233 CRPC, part of Sessions trial procedure, outlines 'Entering upon defence'.\n\nMain Purpose: This section comes into play if the accused is not acquitted under S.232 (i.e., the court finds there is some evidence against the accused after prosecution closes its case).\n\nKey Provisions:\n1. Where the accused is not acquitted under section 232, they shall be called upon to enter on their defence and adduce any evidence they may have in support thereof.\n2. If the accused puts in any written statement, the Judge shall file it with the record.\n3. If the accused applies for the issue of any process for compelling the attendance of any witness or the production of any document or thing, the Judge shall issue such process unless they consider that such application should be refused on the ground that it is made for the purpose of vexation or delay or for defeating the ends of justice.\n\nSignificance: This section ensures the accused's right to defend themselves by presenting their own evidence (witnesses, documents) to rebut the prosecution's case or establish their innocence.",
+            "S.243 CRPC": "Section 243 CRPC deals with 'Evidence for defence' in the trial of warrant cases instituted on a police report, before a Magistrate.\n\nMain Purpose: This section applies after the charge has been framed, the accused has pleaded not guilty, and the prosecution has presented its evidence (under S.242). It allows the accused to present their defence.\n\nKey Provisions:\n1. The accused shall then be called upon to enter upon their defence and produce their evidence.\n2. If the accused puts in any written statement, the Magistrate shall file it with the record.\n3. If the accused applies for process to compel attendance of witnesses or production of documents, the Magistrate shall issue such process unless it is for vexation, delay, or defeating justice. The Magistrate may require deposit of reasonable expenses for witnesses.\n\nSignificance: This upholds the accused's right to a fair trial by allowing them to present their side of the story and challenge the prosecution's evidence in warrant cases based on police reports.",
+            "S.254 CRPC Defense": "While S.254 CRPC generally covers the procedure in summons cases when the accused is not convicted on a plea of guilty, the part pertaining to defence evidence is crucial.\n\nMain Purpose: To ensure that after the prosecution has presented its evidence, the accused in a summons case has the right to present their own evidence in defence.\n\nKey Provision (relevant part): 'The Magistrate shall... hear the accused and take all such evidence as he produces in his defence.'\n\nSignificance: Even in simpler summons trials, this provision guarantees the accused an opportunity to actively defend themselves by adducing evidence, which is a fundamental aspect of a fair trial.",
+            "S.234 CRPC": "Section 234 CRPC, part of Sessions trial procedure, deals with 'Arguments'.\n\nMain Purpose: To provide a formal stage for both the prosecution and defence to summarize their respective cases and arguments based on the evidence recorded during the trial, before the Judge proceeds to judgment.\n\nKey Provision: 'When the examination of the witnesses (if any) for the defence is complete, the prosecutor shall sum up his case and the accused or his pleader shall be entitled to reply: Provided that where any point of law is raised by the accused or his pleader, the prosecutor may, with the permission of the Judge, make his submissions with regard to such point of law.'\n\nSignificance: Final arguments are a critical part of the trial where each side attempts to persuade the court that the evidence supports their position. It allows for a comprehensive review and interpretation of the evidence presented.",
+            "S.246 CRPC Arguments": "Section 246 CRPC, specifically sub-section (6), implicitly covers arguments in warrant cases instituted otherwise than on a police report (complaint cases) before a Magistrate. After the defence evidence (if any, under S.247 which refers back to S.243 procedures) is closed, the case proceeds towards judgment (S.248), which would naturally be preceded by arguments, though not as explicitly detailed as in S.234 for Sessions trials. The general practice is that arguments are heard.\n\nMain Purpose: To allow both complainant (prosecution) and defence to present their final submissions on the evidence before the Magistrate decides the case.\n\nSignificance: Arguments allow parties to highlight key evidence, address legal issues, and persuade the Magistrate on the merits of their case before judgment in complaint-based warrant trials.",
+            "S.254 CRPC Arguments": "While S.254 CRPC for summons cases primarily details the hearing of prosecution and defence evidence, the phrase 'hear the prosecution' and 'hear the accused' can be interpreted to include not just the presentation of evidence but also oral submissions or arguments on the evidence presented.\n\nMain Purpose: To allow both sides in a summons case to make their points on the evidence before the Magistrate proceeds to judgment under S.255.\n\nPractice: Though not as formal as in warrant or sessions trials, parties are generally given an opportunity to make brief arguments or submissions on the evidence led.\n\nSignificance: Ensures that even in summary proceedings, both parties have a chance to address the court on the overall impact of the evidence before a decision is made.",
+            "S.235 CRPC": "Section 235 CRPC, part of Sessions trial procedure, deals with the 'Judgment of acquittal or conviction'.\n\nMain Purpose: To outline the process of delivering the judgment after the trial concludes (i.e., after evidence and arguments).\n\nKey Provisions:\n1. S.235(1): After hearing arguments and points of law (if any), the Judge shall give a judgment in the case.\n2. S.235(2): If the accused is convicted, the Judge shall, unless proceeding under S.360 (release on probation/admonition), hear the accused on the question of sentence, and then pass sentence on them according to law. This is a crucial 'pre-sentence hearing' opportunity.\n\nSignificance: This section mandates a formal decision by the court. The bifurcation in S.235(2) for a separate hearing on sentence after conviction is a vital safeguard ensuring that factors relevant to sentencing are considered before punishment is imposed.",
+            "S.248 CRPC": "Section 248 CRPC deals with 'Acquittal or conviction' in the trial of warrant cases by Magistrates (applicable to both cases instituted on police report and complaint cases).\n\nMain Purpose: To specify how a Magistrate delivers judgment after the conclusion of a warrant trial.\n\nKey Provisions:\n1. S.248(1): If, in any case under this Chapter in which a charge has been framed, the Magistrate finds the accused not guilty, they shall record an order of acquittal.\n2. S.248(2): Where the Magistrate finds the accused guilty, they shall, after hearing the accused on the question of sentence (unless proceeding under S.325 or S.360), pass sentence upon them according to law.\n3. S.248(3): Where previous conviction is charged for enhanced punishment and accused does not admit it, Magistrate takes evidence on it before sentencing.\n\nSignificance: Similar to S.235 for Sessions Courts, S.248 ensures a formal judgment in warrant cases, with a mandatory pre-sentence hearing if the accused is convicted, upholding principles of fair procedure.",
+            "S.255 CRPC": "Section 255 CRPC deals with 'Acquittal or conviction' in summons cases tried by Magistrates.\n\nMain Purpose: To outline the procedure for delivering judgment in summons trials.\n\nKey Provisions:\n1. S.255(1): If the Magistrate, upon taking the evidence referred to in section 254 and such further evidence, if any, as they may, of their own motion, cause to be produced, finds the accused not guilty, they shall record an order of acquittal.\n2. S.255(2): Where the Magistrate does not proceed in accordance with the provisions of section 325 or section 360, they shall, if they find the accused guilty, pass sentence upon them according to law.\n3. S.255(3): A Magistrate may, under sub-section (1) or sub-section (2), convict the accused of any offence triable under this Chapter, which from the facts admitted or proved they appear to have committed, whatever may be the nature of the complaint or summons, if the Magistrate is satisfied that the accused would not be prejudiced thereby.\n\nSignificance: This section provides for the final decision in summons cases. While simpler, it still requires the Magistrate to find the accused guilty or not guilty based on evidence and then sentence accordingly if guilty.",
+            "S.235(2) CRPC": "Section 235(2) CRPC is a specific and highly important sub-section within the judgment provisions for Sessions trials.\n\nMain Purpose: To mandate a separate hearing on the question of sentence after an accused is convicted but before the sentence is actually passed.\n\nKey Provision: 'If the accused is convicted, the Judge shall, unless he proceeds in accordance with the provisions of section 360 [Order to release on probation of good conduct or after admonition], hear the accused on the question of sentence, and then pass sentence on him according to law.'\n\nSignificance: This provision embodies a crucial principle of criminal jurisprudence: the process of determining guilt is separate from determining the appropriate punishment. It allows the accused to present mitigating circumstances (e.g., age, background, first offence, dependents, possibility of reform) and the prosecution to present aggravating circumstances, enabling the judge to make a more informed and just sentencing decision. This is a vital right of the convict.",
+            "Ss.372-394 CRPC": "Sections 372 to 394 of the CRPC deal with 'Appeals'.\n\nMain Purpose: To provide a mechanism for a higher court to review the decision of a lower court, ensuring that justice is done and errors (if any) can be corrected.\n\nKey Provisions:\n- S.372: No appeal to lie unless otherwise provided. Proviso allows victim to appeal against acquittal, conviction for lesser offence, or inadequate compensation.\n- S.373: Appeal from orders requiring security or refusal to accept or rejecting surety for keeping peace or good behaviour.\n- S.374: Appeals from convictions (e.g., from Sessions Court to High Court; from Magistrate to Sessions Court).\n- S.375: No appeal in certain cases when accused pleads guilty (limited scope).\n- S.376: No appeal in petty cases (limited scope, e.g., minor fines).\n- S.377: Appeal by the State Government against sentence (if inadequate).\n- S.378: Appeal in case of acquittal (by State or Central Govt, often requires leave of High Court).\n- S.381: Appeal to Court of Session, how heard.\n- S.386: Powers of the Appellate Court (can dismiss appeal; order retrial; acquit or discharge; alter finding and/or sentence, etc.).\n- S.390: Arrest of accused in appeal from acquittal.\n- S.393: Finality of judgments and orders on appeal.\n\nSignificance: The appellate process is a cornerstone of the justice system, providing a hierarchical review to safeguard against errors of law or fact, ensuring fairness and consistency in judicial outcomes.",
+            "S.378 CRPC": "Section 378 CRPC specifically deals with 'Appeal in case of acquittal'.\n\nMain Purpose: To allow the State or Central Government to challenge a judgment of acquittal passed by a lower court, if it is believed that the acquittal was erroneous or resulted in a miscarriage of justice.\n\nKey Provisions:\n1. The State Government may direct the Public Prosecutor to present an appeal to the High Court from an original or appellate order of acquittal passed by any Court other than a High Court.\n2. The Central Government may also direct the Delhi Special Police Establishment (CBI) or other agency to appeal an acquittal.\n3. Such appeals (except those against an order of acquittal passed in a case instituted upon complaint) require the 'leave' (permission) of the High Court.\n4. If an order of acquittal is passed in a case instituted upon complaint, the complainant may also appeal to the High Court after obtaining special leave.\n5. Time limits for filing such appeals are prescribed.\n\nSignificance: This section provides a mechanism for the prosecution to seek reversal of an acquittal, but with safeguards like requiring leave from the High Court, recognizing that an acquittal carries a presumption of innocence.",
+            "Ss.397-401 CRPC": "Sections 397 to 401 of the CRPC deal with 'Revision'.\n\nMain Purpose: To empower the High Court and the Court of Session to examine the record of any proceeding before any inferior criminal court within its jurisdiction for the purpose of satisfying itself as to the correctness, legality, or propriety of any finding, sentence, or order, and as to the regularity of any proceedings of such inferior Court.\n\nKey Provisions:\n- S.397: Calling for records to exercise powers of revision (suo motu or on application).\n- S.398: Power to order inquiry.\n- S.399: Sessions Judge's powers of revision.\n- S.401: High Court's powers of revision. The High Court can exercise any of the powers conferred on an appellate court by sections 386, 389, 390, and 391. However, it cannot convert a finding of acquittal into one of conviction. No party has a right to be heard, but usually, an opportunity is given.\n\nSignificance: Revision is a supervisory jurisdiction. It is not a right like appeal but a discretionary power of higher courts to correct miscarriages of justice arising from errors of law or procedure by lower courts, even if an appeal is not filed or does not lie. It helps maintain judicial discipline and consistency.",
+            "Ss.413-424 CRPC": "Sections 413 to 424 of the CRPC deal with the 'Execution, Suspension, Remission and Commutation of Sentences'.\n\nMain Purpose: To provide the legal framework for carrying out the sentences imposed by courts, and also for modifying them under certain circumstances.\n\nKey Provisions:\n- S.413: Execution of order passed under S.368 (confirmation of death sentence by High Court).\n- S.414: Execution of sentence of death passed by High Court in appeal or revision.\n- S.415: Postponement of execution of sentence of death in case of appeal to Supreme Court.\n- S.416: Postponement of capital sentence on pregnant woman.\n- S.417: Power to appoint place of imprisonment.\n- S.418: Execution of sentence of imprisonment.\n- S.421: Warrant for levy of fine.\n- S.425: Warrant for execution of sentence.\n- (Sections on Suspension, Remission, Commutation like S.432, S.433, S.433A are also part of this broader scheme, though not explicitly listed in this range, they are thematically connected to post-sentencing actions by executive government).\n\nSignificance: These sections ensure that court orders are given effect. The provisions for execution detail how sentences of death, imprisonment, and fine are carried out. The related powers of suspension, remission, and commutation (primarily executive powers) allow for clemency or modification of sentences based on various factors post-conviction.",
+            "Article 161 of the Indian Constitution": "Article 161 of the Constitution of India grants the Governor of a State the power to grant pardons, reprieves, respites, or remissions of punishment or to suspend, remit, or commute the sentence of any person convicted of any offence against any law relating to a matter to which the executive power of the State extends.\n\nMain Purpose: To provide a mechanism for executive clemency at the state level.\n\nKey Aspects:\n- The Governor's power is co-extensive with the executive power of the State.\n- This power is exercised on the advice of the State Council of Ministers.\n- It can be exercised for any offence against a state law.\n- It is a sovereign power, distinct from judicial power, and can be exercised at any time after conviction.\n\nSignificance: This power serves as a check against possible judicial errors, undue harshness in sentencing, or to address circumstances that arise post-conviction. It is an important aspect of the constitutional scheme for justice and mercy.",
+            "Article 72 of the Indian Constitution": "Article 72 of the Constitution of India confers upon the President of India the power to grant pardons, reprieves, respites, or remissions of punishment, or to suspend, remit, or commute the sentence of any person convicted of any offence.\n\nMain Purpose: To provide a mechanism for executive clemency at the highest level of the Union executive.\n\nKey Aspects:\n- This power applies in all cases where the punishment or sentence is by a Court Martial.\n- It applies in all cases where the punishment or sentence is for an offence against any law relating to a matter to which the executive power of the Union extends.\n- Crucially, it applies in all cases where the sentence is a sentence of death.\n- The President exercises this power on the advice of the Union Council of Ministers.\n\nSignificance: The President's pardoning power is a significant constitutional safeguard. It can be used to correct judicial errors, mitigate excessive punishment, or on humanitarian grounds. In death penalty cases, it represents the final avenue for appeal for mercy after all judicial remedies are exhausted.",
+
+            // Stages
+            "Stage 1: Information to the Police. This stage covers the initial reporting of an offence. It differentiates between cognizable offences (leading to an FIR) and non-cognizable offences (requiring a magistrate's intervention or direct complaint). Key sections include 154 and 155 CRPC.": "Stage 1: Information to the Police is the initial phase where the criminal justice process is set into motion.\n\nMain Objectives: To formally bring an alleged offence to the notice of the authorities and to determine the initial course of action based on the nature of the offence.\n\nKey Activities:\n1. Reporting of an Offence: An individual (informant/victim) provides information about a crime to the police.\n2. Nature of Offence Assessment: Police assess if the offence is 'cognizable' (serious, police can arrest without warrant and investigate immediately - S.154 CRPC) or 'non-cognizable' (less serious, police need Magistrate's permission to investigate - S.155 CRPC).\n3. FIR Registration: For cognizable offences, police MUST register a First Information Report (FIR) under S.154. This is a critical document that triggers investigation.\n4. NCR Entry & Referral: For non-cognizable offences, police enter details in a Non-Cognizable Report (NCR) and refer the informant to the Magistrate (S.155).\n5. Alternative - Complaint to Magistrate: If police refuse to register FIR for a cognizable offence (remedy under S.154(3) to SP, then S.190/200 to Magistrate) or for non-cognizable matters, the aggrieved person can directly file a complaint with a Magistrate (S.200 CRPC).\n\nImportance: This stage is the gateway to the criminal justice system. Proper handling here ensures that legitimate grievances are addressed and investigations are initiated promptly for serious crimes.",
+            "Stage 2: Investigation by Police. This stage begins after an FIR or magistrate's order. Key actions include arrest, remand, bail considerations, recording statements (S.161, S.164), search & seizure, and medical exams. It culminates in a police report (charge sheet or final report) under S.173.": "Stage 2: Investigation by Police is the process of collecting evidence related to the reported offence.\n\nMain Objectives: To ascertain the facts and circumstances of the case, identify the perpetrators, collect evidence (oral, documentary, material), and determine if there's sufficient basis to prosecute.\n\nKey Activities:\n1. Commencement: Begins after FIR registration (S.156 for cognizable) or Magistrate's order (S.155(2) for non-cognizable).\n2. Arrest & Custody: Arresting suspects (Ss.41-60A), producing them before Magistrate within 24 hours (S.57), seeking police/judicial remand if investigation isn't complete (S.167).\n3. Bail: Considering bail for bailable offences (S.436) or non-bailable offences (S.437, S.439 by higher courts), including anticipatory bail (S.438).\n4. Examination of Witnesses: Recording statements of persons acquainted with the facts (S.161). Recording confessions/statements before a Magistrate (S.164) for greater evidentiary value.\n5. Search & Seizure: Conducting searches and seizing property/documents relevant to the crime (Ss.93-103, S.100 for procedure).\n6. Medical Examination: Of accused (S.53, S.54) and victim (especially in cases like rape, S.53A) for evidence.\n7. Collection of Evidence: Gathering all forms of evidence, including forensic evidence.\n8. Final Report (S.173): Upon completion, police file a report (Charge Sheet if evidence found, Closure Report if not) with the Magistrate.\n\nImportance: A thorough and fair investigation is the backbone of a successful prosecution. It determines whether a case proceeds to trial and the quality of evidence available.",
+            "Stage 3: Inquiry / Committal Proceedings. This stage involves the magistrate taking cognizance of the offence (S.190). For complaint cases, it includes examination of complainant (S.200) and issuance of process (S.204) or dismissal (S.203). For cases triable by Sessions Court, committal proceedings (Ss.207-209) occur.": "Stage 3: Inquiry / Committal Proceedings is a judicial phase that follows the investigation (or is part of initiating a complaint case) and precedes the trial proper.\n\nMain Objectives: For the Magistrate to apply their judicial mind to the available material, decide if there's a basis to proceed against the accused, and ensure serious cases are sent to the appropriate higher court (Court of Session).\n\nKey Activities:\n1. Taking Cognizance (S.190): Magistrate takes judicial notice of the offence based on a police report, a private complaint, or other information/suo motu.\n2. Complaint Cases:\n    a. Examination of Complainant (S.200): Magistrate examines the complainant and their witnesses on oath.\n    b. Inquiry/Investigation (S.202 - Optional): Magistrate may postpone issuing process and order an inquiry or police investigation to verify the complaint.\n    c. Dismissal or Issuance of Process: If no sufficient ground, complaint dismissed (S.203). If sufficient ground, process (summons/warrant) issued to accused (S.204).\n3. Supply of Documents: Accused is provided with copies of police report, statements, etc. (S.207 for police cases, S.208 for complaint cases triable by Sessions Court) to prepare their defence.\n4. Committal Proceedings (S.209): If the offence is exclusively triable by the Court of Session, the Magistrate, after ensuring compliance with S.207/208, commits the case to the Court of Session. The Magistrate does not frame charges in such cases.\n\nImportance: This stage acts as a judicial filter, ensuring that only cases with prima facie merit proceed to trial, and that cases are routed to the correct court based on their seriousness.",
+            "Stage 4: Framing of Charge. The court (Sessions or Magistrate) hears arguments. If a prima facie case exists, charges are framed (Ss.211-224) and explained to the accused. If not, the accused can be discharged (Ss.227, 239, 245).": "Stage 4: Framing of Charge is a critical pre-trial stage where the court formally accuses the person of specific offences.\n\nMain Objectives: To precisely define the accusations the accused must answer during the trial, based on a prima facie assessment of the evidence.\n\nKey Activities:\n1. Hearing on Charge: The court (Sessions Judge for Sessions cases - S.227/228; Magistrate for warrant cases - S.239/240 for police report cases, S.245/246 for complaint cases) considers the record, documents, and hears arguments from both prosecution and defence.\n2. Discharge: If the court finds no sufficient ground for proceeding (i.e., no prima facie case), it will discharge the accused, recording reasons (S.227, S.239, S.245).\n3. Framing of Charge: If the court finds a prima facie case, it frames a formal charge (or charges) specifying the offence(s) the accused is alleged to have committed (Ss.211-216 for content and alteration of charge; Ss.228, S.240, S.246 for framing by different courts).\n4. Plea of the Accused: The charge is read and explained to the accused, who is then asked whether they plead guilty to the charge or claim to be tried (S.229, S.241, S.246(2), S.251 for summons cases where substance of accusation is stated).\n\nImportance: Framing the charge crystallizes the accusations, enabling the accused to understand exactly what they need to defend against. It sets the parameters for the ensuing trial. Discharge at this stage prevents individuals from facing a full trial if the evidence is patently insufficient.",
+            "Stage 5: Trial. This stage varies based on trial type (Sessions, Warrant, Summons, Summary). Common phases include Prosecution Evidence (Ss.231, 242, 244, 254), Examination of Accused (S.313), Defense Evidence (Ss.233, 243, 254), and Final Arguments (Ss.234, 246, 254).": "Stage 5: Trial is the core judicial process where the guilt or innocence of the accused is determined through the presentation and examination of evidence.\n\nMain Objectives: To adjudicate the charges against the accused in a fair and open court proceeding, based on evidence led by both prosecution and defence.\n\nKey Phases (common across different trial types, with procedural variations):\n1. Prosecution Evidence: The prosecution presents its witnesses and documentary evidence to prove the charges. This includes:\n    - Examination-in-chief by the prosecutor.\n    - Cross-examination by the defence counsel.\n    - Re-examination by the prosecutor (if necessary).\n    (Relevant sections: S.231 for Sessions; S.242 for warrant-police report; S.244 for warrant-complaint; S.254 for summons).\n2. Statement/Examination of Accused (S.313): After the prosecution closes its evidence, the court questions the accused personally (without oath) about the circumstances appearing in evidence against them, giving them an opportunity to explain.\n3. Acquittal if No Incriminating Evidence (Sessions Trial - S.232): In Sessions trials, if after prosecution evidence and S.313 examination, the judge finds no evidence that the accused committed the offence, they are acquitted without calling for defence evidence.\n4. Defence Evidence: If the accused is not acquitted (or in other trial types after prosecution evidence/S.313), they are given an opportunity to present their defence evidence (witnesses, documents).\n    (Relevant sections: S.233 for Sessions; S.243 for warrant-police report; S.247 for warrant-complaint; S.254 for summons).\n5. Final Arguments: Both prosecution and defence counsel present their final arguments, summarizing the evidence and citing legal points to persuade the court.\n    (Relevant sections: S.234 for Sessions; practice followed in warrant/summons cases).\n\nTrial Types: The CRPC specifies different procedures for:\n- Sessions Trial (Ss.225-237): For most serious offences.\n- Warrant Case Trial (Ss.238-250): For offences punishable with imprisonment > 2 years.\n- Summons Case Trial (Ss.251-259): For less serious offences.\n- Summary Trial (Ss.260-265): For petty offences, even quicker procedure.\n\nImportance: The trial is the heart of the criminal justice system, where evidence is tested, and a decision on guilt is made based on established legal principles of a fair trial.",
+            "Stage 6: Judgment. After arguments, the court pronounces judgment (Ss.235, 248, 255). Outcomes are acquittal (not guilty) or conviction (guilty). If convicted, a sentencing hearing (S.235(2)) follows to determine punishment.": "Stage 6: Judgment is the formal decision of the court delivered after the conclusion of the trial.\n\nMain Objectives: To declare the accused either guilty or not guilty of the charges, and if found guilty, to determine the appropriate punishment.\n\nKey Activities:\n1. Pronouncement of Judgment: After hearing final arguments from both sides, the judge considers all the evidence and legal arguments and delivers a formal judgment.\n    (Relevant sections: S.235 for Sessions trials; S.248 for warrant cases; S.255 for summons cases).\n2. Contents of Judgment (S.354): The judgment must be in writing, in the language of the court, contain points for determination, the decision thereon, and reasons for the decision. If it's an acquittal, it must state the offence of which the accused is acquitted and direct they be set at liberty. If a conviction, it must state the offence and the law under which convicted.\n3. Outcome - Acquittal: If the prosecution fails to prove guilt beyond a reasonable doubt, the accused is acquitted (found not guilty).\n4. Outcome - Conviction: If the prosecution proves guilt beyond a reasonable doubt, the accused is convicted (found guilty).\n5. Hearing on Sentence (Pre-Sentence Hearing): If the accused is convicted, a crucial step follows (especially in Sessions - S.235(2), and warrant cases - S.248(2)) where the court hears the accused (and prosecution) on the question of the appropriate sentence. This allows the convict to present mitigating factors (age, background, dependents, etc.) and the prosecution to highlight aggravating factors.\n6. Passing of Sentence: After the pre-sentence hearing, the court passes the sentence according to law (e.g., imprisonment, fine, or in rarest of rare cases, death penalty).\n\nImportance: The judgment marks the culmination of the trial process. The pre-sentence hearing is a vital aspect of fair sentencing, ensuring punishment is proportionate and considers individual circumstances.",
+            "Stage 7: Post-Judgment Proceedings. This includes appeals by the convicted (Ss.372-394) or state (S.378), revision petitions for legal errors (Ss.397-401), execution of sentence (Ss.413-424), and mercy petitions for death/life sentences (Art.72, 161 Constitution).": "Stage 7: Post-Judgment Proceedings encompass various legal actions and processes that can occur after the trial court has delivered its judgment.\n\nMain Objectives: To provide avenues for challenging the judgment, correcting errors, ensuring the sentence is carried out, or seeking clemency.\n\nKey Activities:\n1. Appeals (Ss.372-394 CRPC):\n    - By Convicted Person: If found guilty, the convict can appeal to a higher court (e.g., from Magistrate to Sessions Court, from Sessions Court to High Court, from High Court to Supreme Court) challenging the conviction or sentence (S.374).\n    - By State/Prosecution: The State can appeal against an inadequate sentence (S.377) or against an acquittal (S.378, often requiring leave of the court).\n    - By Victim: The victim has a right to appeal against acquittal, conviction for a lesser offence, or inadequate compensation (Proviso to S.372).\n2. Revision (Ss.397-401 CRPC): The High Court or Sessions Court can exercise supervisory jurisdiction to examine the legality, correctness, or propriety of any finding, sentence, or order of a lower court. This is not a full rehearing like an appeal but aims to correct miscarriages of justice or errors of law.\n3. Execution of Sentence (Ss.413-424 CRPC): If the conviction and sentence are upheld (or not appealed), the sentence imposed by the court is carried out. This includes procedures for executing sentences of death, imprisonment, and fines.\n4. Suspension, Remission, and Commutation of Sentences (e.g., Ss.432, 433 CRPC by Govt.): The appropriate government has powers to suspend (postpone), remit (reduce), or commute (change to a lesser form) sentences under certain conditions.\n5. Mercy Petitions (Constitutional Powers):\n    - To the Governor (Article 161 of the Constitution): For offences against state laws.\n    - To the President (Article 72 of the Constitution): For offences against Union laws, Court Martial sentences, and all death sentences.\n    This is the final avenue for seeking clemency, especially in cases of death penalty or life imprisonment.\n\nImportance: These post-judgment proceedings are essential for ensuring the accuracy and fairness of judicial outcomes, providing mechanisms for review and correction, and for the lawful execution or modification of sentences, including ultimate acts of clemency."
+        };
+        // --- END OF EMBEDDED CONTENT ---
+
+        // Function to show the modal
+        function showModal(title, content) {
+            modalTitle.textContent = title;
+            modalBody.innerHTML = content ? content.replace(/\n/g, '<br>') : "Content not available for this item.";
+            infoModal.classList.add('active');
+        }
+
+        // Function to hide the modal
+        function hideModal() {
+            infoModal.classList.remove('active');
+        }
+
+        // Event listener for closing the modal
+        modalCloseBtn.addEventListener('click', hideModal);
+        infoModal.addEventListener('click', (event) => {
+            if (event.target === infoModal) { // Click outside modal content
+                hideModal();
+            }
+        });
+
+        // Add event listeners to "Explain Section" buttons
+        document.querySelectorAll('.explain-section-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const section = button.dataset.section;
+                const explanation = offlineContent[section];
+                showModal(`Explanation for ${section}`, explanation || `Detailed explanation for ${section} is not embedded. This is a general overview component.`);
+            });
+        });
+
+        // Add event listeners to "Summarize Stage" buttons
+        document.querySelectorAll('.summarize-stage-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const stageInfoKey = button.dataset.stageInfo;
+                const stageTitle = stageInfoKey.split('.')[0]; // Extract title for modal
+                const summary = offlineContent[stageInfoKey];
+                showModal(`Summary for ${stageTitle}`, summary || `Detailed summary for ${stageTitle} is not embedded. This is a general overview component.`);
+            });
+        });
+
+    </script>
+</body>
+</html>
